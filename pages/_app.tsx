@@ -1,8 +1,18 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import type {AppProps} from 'next/app';
+import Chakra from '../components/Chakra';
+import Layout from '../components/Layout';
+import AuthProvider from '../store/providers/AuthProvider';
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+function MyApp({Component, pageProps}: AppProps) {
+  return (
+    <Chakra>
+      <AuthProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </AuthProvider>
+    </Chakra>
+  );
 }
 
-export default MyApp
+export default MyApp;
