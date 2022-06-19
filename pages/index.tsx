@@ -17,6 +17,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
 const Home: NextPage<Props> = ({posts}) => {
   const {authState, handleUserLogout} = useAuth();
+
   useEffect(() => {
     const subscription = supabase
       .from('posts')
@@ -25,7 +26,7 @@ const Home: NextPage<Props> = ({posts}) => {
       })
       .subscribe();
 
-    return () => supabase.removeSubscription(subscription);
+    return () => {supabase.removeSubscription(subscription)};
   }, []);
   return (
     <div>

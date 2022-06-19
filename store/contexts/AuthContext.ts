@@ -7,6 +7,7 @@ export const initialState: AuthInfoType = {
   isLoading: false,
 };
 const AuthContext = createContext<AuthContextType>({
+  isLoading: true,
   authState: initialState,
   handleUserSignUp: (_email: string, _password: string) =>
     new Promise(() => null),

@@ -20,7 +20,7 @@ const config = {
   useSystemColorMode: false,
 }
 
-const theme: Theme = extendTheme({styles, config})
+const theme = extendTheme({styles, config})
 
 export default theme
 

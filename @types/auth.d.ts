@@ -1,6 +1,7 @@
 import {User} from "@supabase/supabase-js";
 
 export type ProfileType = {
+  id?: string;
   username: string;
   website: string;
   avatar_url: string;

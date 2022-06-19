@@ -32,7 +32,6 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
 };
 
 const Login: React.FC = () => {
-  console.log(props)
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [pwd, setPwd] = useState('');
