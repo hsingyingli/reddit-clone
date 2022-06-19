@@ -1,23 +1,36 @@
 import {useEffect} from 'react';
-import {Button} from '@chakra-ui/react';
-import type {NextPage} from 'next';
+import type {GetServerSideProps, NextPage} from 'next';
 import useAuth from '../hooks/useAuth';
-import {getProfile} from '../lib/auth';
+import {supabase} from '../lib/supabase-client';
 
-const Home: NextPage = () => {
+interface Props {
+  posts: Object;
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const {data, error} = await supabase.from('posts').select('*');
+
+  return {
+    props: {posts: data},
+  };
+};
+
+const Home: NextPage<Props> = ({posts}) => {
   const {authState, handleUserLogout} = useAuth();
-
   useEffect(() => {
-    getProfile().then(({data, error}) => {
-      console.log(data);
-      console.log(error);
-      console.log(authState)
-    });
-  }, []);
+    const subscription = supabase
+      .from('posts')
+      .on('INSERT', (payload) => {
+        console.log(payload);
+      })
+      .subscribe();
 
+    return () => supabase.removeSubscription(subscription);
+  }, []);
   return (
     <div>
-      Hello<Button onClick={handleUserLogout}>Logout</Button>
+      <pre>{JSON.stringify(posts, null, 2)}</pre>
+      <pre>{JSON.stringify(authState, null, 2)}</pre>
     </div>
   );
 };

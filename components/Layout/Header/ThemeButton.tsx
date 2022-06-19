@@ -11,6 +11,7 @@ const ThemeButton: React.FC = () => {
   return (
     <Box mx={2}>
       <IconButton
+        size='sm'
         aria-label="theme toggler"
         colorScheme={useColorModeValue('purple', 'orange')}
         icon={useColorModeValue(<MoonIcon />, <SunIcon />)}

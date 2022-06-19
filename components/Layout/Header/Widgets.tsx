@@ -6,6 +6,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Tooltip,
 } from '@chakra-ui/react';
 import {
   ChatIcon,
@@ -15,35 +16,42 @@ import {
   AddIcon,
 } from '@chakra-ui/icons';
 import React from 'react';
+import useAuth from '../../../hooks/useAuth';
 
-interface WidgetProps {
-  display?: string;
-}
-
-const Widgets: React.FC<WidgetProps> = ({...rest}) => {
+const Widgets: React.FC = () => {
+  const {authState} = useAuth();
   return (
-    <Box {...rest}>
+    <Box display={authState.isAuth ? 'inline' : 'none'}>
       <HStack display={{base: 'none', md: 'flex'}}>
+        <Tooltip label='Popular Posts'>
+          <IconButton
+            variant="ghost"
+            aria-label="nav to pouplar posts"
+            icon={<StarIcon />}
+          />
+        </Tooltip>
+        <Tooltip label='Notification'>
         <IconButton
           variant="ghost"
-          aria-label="nav to pouplar posts"
-          icon={<StarIcon />}
-        />
-        <IconButton
-          variant="ghost"
-          aria-label="new posts"
+          aria-label="notification"
           icon={<BellIcon />}
         />
+        </Tooltip>
+        <Tooltip label='Chat room'>
         <IconButton variant="ghost" aria-label="chatroom" icon={<ChatIcon />} />
+        </Tooltip>
+        <Tooltip label='Create Post'>
         <IconButton
           variant="ghost"
           aria-label="create post"
           icon={<AddIcon />}
         />
+        </Tooltip>
       </HStack>
       <Box display={{md: 'none'}}>
         <Menu>
           <MenuButton
+            size='sm'
             as={IconButton}
             aria-label="Options"
             icon={<HamburgerIcon />}
@@ -53,7 +61,7 @@ const Widgets: React.FC<WidgetProps> = ({...rest}) => {
             <MenuItem icon={<StarIcon />}>Pouplar</MenuItem>
             <MenuItem icon={<BellIcon />}>Notification</MenuItem>
             <MenuItem icon={<ChatIcon />}>Chat</MenuItem>
-            <MenuItem icon={<AddIcon />}>New Post</MenuItem>
+            <MenuItem icon={<AddIcon />}>Create Post</MenuItem>
           </MenuList>
         </Menu>
       </Box>

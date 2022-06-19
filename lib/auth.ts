@@ -1,23 +1,16 @@
+import {ProfileType} from '../@types/auth';
 import {supabase} from './supabase-client';
 
-export const getProfile= async () => {
-  try {
-    const user = supabase.auth.user();
-    console.log(user)
-    let {data, error, status} = await supabase
-      .from('profile')
-      .select('username, website, avatar_url')
-      .eq('id', user?.id);
 
-    if (error && status !== 406) throw error;
-    
 
-    return {data, error: null};
-  } catch (error) {
-    return {data: null, error: error};
-  }
+export const getProfile = (id:string) => {
+  return supabase
+    .from<ProfileType>('profiles')
+    .select('username, website, avatar_url')
+    .eq('id', id)
+    .single();
+
 };
-
 
 export const updateProfile = async (update: any) => {
   try {
@@ -26,15 +19,16 @@ export const updateProfile = async (update: any) => {
       ...update,
       id: user?.id,
       updated_at: new Date(),
-      
-    }
+    };
 
-    let {error} = await supabase.from('profile').upsert(updates, {returning: "minimal"})
+    let {error} = await supabase
+      .from('profile')
+      .upsert(updates, {returning: 'minimal'});
 
-    if (error) throw error
+    if (error) throw error;
   } catch (error) {
-    return false
+    return false;
   }
 
-  return true
-}
+  return true;
+};

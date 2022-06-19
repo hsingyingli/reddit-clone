@@ -1,13 +1,12 @@
-import {Box, Container, HStack} from '@chakra-ui/react';
+import {Box, Container, HStack, useColorModeValue} from '@chakra-ui/react';
 import React from 'react';
-
 import Logo from './Logo';
 import SearchBar from './SearchBar';
 import ThemeButton from './ThemeButton';
 import Widgets from './Widgets';
+import UserInfo from './UserInfo';
 
 const Header: React.FC = () => {
-  const isLoggin = true;
   return (
     <Box
       position="fixed"
@@ -15,8 +14,8 @@ const Header: React.FC = () => {
       top={0}
       left={0}
       zIndex={1}
-      bgColor="transparent"
-      backdropBlur="sm"
+      bgColor='transparent'
+      backdropFilter="blur(5px)"
       boxShadow="sm"
     >
       <Container
@@ -32,7 +31,8 @@ const Header: React.FC = () => {
         <SearchBar />
         {/*widgets*/}
         <HStack ml={1}>
-          <Widgets display={isLoggin ? 'inline' : 'none'} />
+          <Widgets/>
+          <UserInfo/>
           <ThemeButton />
         </HStack>
       </Container>

@@ -1,20 +1,30 @@
+import {User} from "@supabase/supabase-js";
+
+export type ProfileType = {
+  username: string;
+  website: string;
+  avatar_url: string;
+}
+
 export type AuthActionType = {
   type: string;
-  email?: string;
+  user?: User
 }
 
 
 export type AuthInfoType = {
   isAuth: boolean;
-  username: string;
-  email: string;
+  user: User| null | undefined;
   isLoading: boolean;
 }
 
 export type AuthContextType = {
+  isLoading: boolean;
   authState: AuthInfoType;
-  handleUserLogin?: (_value: string)=> Promise<boolean>;
-  handleUserLogout?: () => Promise<boolean>; 
+  handleUserSignUp: (_email: string, _password: string) => Promise<User | null>,
+  handleUserLogin: (_email: string, _password: string)=> Promise<User | null>;
+  handleUserLogout: () => Promise<boolean>; 
+  handleSetUser: (_user: User) => void;
 }
 
 

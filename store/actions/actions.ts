@@ -1,12 +1,18 @@
 import * as ACTION_TYPE from './action_type'
-import { AuthActionType } from '../../@types/auth';
+import { AuthActionType} from '../../@types/auth';
+import {User} from '@supabase/supabase-js';
 
+export const signup = (user: User): AuthActionType => {
+  return {
+    type: ACTION_TYPE.SIGNUP,
+    user
+  }
+} 
 
-
-export const login = (email: string): AuthActionType => {
+export const login = (user: User): AuthActionType => {
   return {
     type: ACTION_TYPE.LOGIN,
-    email,
+    user
   }
 }
 

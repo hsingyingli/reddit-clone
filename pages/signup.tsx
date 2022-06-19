@@ -31,16 +31,15 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   };
 };
 
-const Login: React.FC = () => {
-  console.log(props)
+const SignUp: React.FC = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [pwd, setPwd] = useState('');
   const [isValidData, setIsValidData] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const {handleUserLogin} = useAuth();
+  const {handleUserSignUp} = useAuth();
 
-  const handleLogin: React.FormEventHandler<HTMLElement> = async (e) => {
+  const handleSignUp: React.FormEventHandler<HTMLElement> = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     if (pwd.length < 6 || email.length == 0) {
@@ -51,7 +50,7 @@ const Login: React.FC = () => {
       return;
     }
 
-    handleUserLogin(email, pwd)
+    handleUserSignUp(email, pwd)
       .then((user) => {
         setIsValidData(true);
         router.push('/');
@@ -100,9 +99,9 @@ const Login: React.FC = () => {
           borderRadius={10}
         >
           <Heading size="xl" color="orange.300" mb={2}>
-            Login to Reddit Clone
+            Sign up to Reddit Clone
           </Heading>
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleSignUp}>
             <FormControl isRequired my={2}>
             <FormLabel>Email</FormLabel>
             <Input
@@ -129,7 +128,7 @@ const Login: React.FC = () => {
               isLoading={isLoading}
               as="button"
               colorScheme="orange"
-              onClick={handleLogin}
+              onClick={handleSignUp}
               type='submit'
             >
               Login
@@ -141,4 +140,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default SignUp;

@@ -9,15 +9,14 @@ export const AuthReducer = (state: AuthInfoType = initialState, action: AuthActi
         ...state,
         isLoading: false,
         isAuth: true,
-        username: "",
-        email: action.email || "",
+        user: action.user,
       };
     case ACTION_TYPE.LOGOUT:
       return {
         ...state,
         isLoading: false,
         isAuth: false,
-        email: "",
+        user: null,
       };
     case ACTION_TYPE.LOADING:
       return {
