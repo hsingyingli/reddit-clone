@@ -10,6 +10,7 @@ import {
   AlertIcon,
   FormControl,
   FormLabel,
+  useToast,
   useColorModeValue,
 } from '@chakra-ui/react';
 import useAuth from '../hooks/useAuth';
@@ -23,16 +24,16 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
         destination: '/',
         permanent: true,
       },
-      props: {},
+      props: {user},
     };
   }
   return {
-    props: {},
+    props: {user},
   };
 };
 
-const SignUp: React.FC = () => {
-  const router = useRouter();
+const SignUp: React.FC = (props) => {
+  const toast = useToast();
   const [email, setEmail] = useState('');
   const [pwd, setPwd] = useState('');
   const [isValidData, setIsValidData] = useState(true);
@@ -53,7 +54,13 @@ const SignUp: React.FC = () => {
     handleUserSignUp(email, pwd)
       .then((user) => {
         setIsValidData(true);
-        router.push('/');
+        toast({
+          title: 'Account created.',
+          description: "We've created your account for you. Please check your email to confirm your signup",
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        })
       })
       .catch((error) => {
         console.log(error);
@@ -131,7 +138,7 @@ const SignUp: React.FC = () => {
               onClick={handleSignUp}
               type='submit'
             >
-              Login
+              SignUp
             </Button>
           </form>
         </Box>

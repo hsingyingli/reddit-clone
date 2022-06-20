@@ -28,6 +28,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
       .from('profiles')
       .insert({id: user?.id, updated_at: new Date()});
 
+    if (InsertError) throw InsertError
+
     return user;
   };
 

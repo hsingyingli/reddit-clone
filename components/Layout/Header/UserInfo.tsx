@@ -43,7 +43,7 @@ const UserInfo: React.FC = () => {
           />
         </MenuButton>
         <MenuList>
-          <NextLink href='/profile'>
+          <NextLink href="/profile">
             <MenuItem fontWeight="bold">Profile</MenuItem>
           </NextLink>
           <MenuDivider />
@@ -52,9 +52,15 @@ const UserInfo: React.FC = () => {
               Logout
             </Button>
           ) : (
-            <Button mx={2} size="sm" >
-              <NextLink href='/login'>Login</NextLink>
-            </Button>
+            <>
+              {' '}
+              <Button mx={2} size="sm">
+                <NextLink href="/login">Login</NextLink>
+              </Button>
+              <Button mx={2} size="sm">
+                <NextLink href="/signup">SignUp</NextLink>
+              </Button>
+            </>
           )}
         </MenuList>
       </Menu>
