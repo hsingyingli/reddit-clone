@@ -2,33 +2,22 @@ import {ProfileType} from '../@types/auth';
 import {supabase} from './supabase-client';
 
 
+type UpdatesType = {
+  username?: string;
+  website?: string;
+  avatar_url?: string;
+}
 
-export const getProfile = (id:string) => {
+export const getProfile = (id: string) => {
   return supabase
     .from<ProfileType>('profiles')
     .select('username, website, avatar_url')
     .eq('id', id)
     .single();
-
 };
 
-export const updateProfile = async (update: any) => {
-  try {
-    const user = supabase.auth.user();
-    const updates = {
-      ...update,
-      id: user?.id,
-      updated_at: new Date(),
-    };
-
-    let {error} = await supabase
-      .from('profile')
-      .upsert(updates, {returning: 'minimal'});
-
-    if (error) throw error;
-  } catch (error) {
-    return false;
-  }
-
-  return true;
+export const updateProfile = (updates: UpdatesType) => {
+  return supabase.from('profiles').upsert(updates, {
+    returning: 'minimal', // Don't return the value after inserting
+  });
 };

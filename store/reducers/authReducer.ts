@@ -1,9 +1,12 @@
-import * as ACTION_TYPE from '../actions/action_type'
-import { AuthActionType, AuthInfoType } from '../../@types/auth';
-import { initialState } from '../contexts/AuthContext';
+import * as ACTION_TYPE from '../actions/action_type';
+import {AuthActionType, AuthInfoType} from '../../@types/auth';
+import {initialState} from '../contexts/AuthContext';
 
-export const AuthReducer = (state: AuthInfoType = initialState, action: AuthActionType): AuthInfoType=> {
-  switch(action.type) {
+export const AuthReducer = (
+  state: AuthInfoType = initialState,
+  action: AuthActionType,
+): AuthInfoType => {
+  switch (action.type) {
     case ACTION_TYPE.LOGIN:
       return {
         ...state,
@@ -22,8 +25,18 @@ export const AuthReducer = (state: AuthInfoType = initialState, action: AuthActi
       return {
         ...state,
         isLoading: true,
-      }
+      };
+    case ACTION_TYPE.ENDLOADING:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case ACTION_TYPE.UPDATE:
+      return {
+        ...state,
+        isUpdate: true,
+      };
     default:
-      return state
+      return state;
   }
-}
+};

@@ -1,10 +1,11 @@
 import {createContext} from 'react';
-import {AuthContextType, AuthInfoType, ProfileType} from '../../@types/auth';
+import {AuthContextType, AuthInfoType} from '../../@types/auth';
 
 export const initialState: AuthInfoType = {
   isAuth: false,
   user: null,
   isLoading: false,
+  isUpdate: false,
 };
 const AuthContext = createContext<AuthContextType>({
   isLoading: true,
@@ -15,6 +16,7 @@ const AuthContext = createContext<AuthContextType>({
     new Promise(() => null),
   handleUserLogout: () => new Promise(() => false),
   handleSetUser: () => {},
+  handleUpdateUser: ()=> {},
 });
 
 export default AuthContext;

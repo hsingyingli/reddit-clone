@@ -27,3 +27,16 @@ export const loading = (): AuthActionType => {
     type: ACTION_TYPE.LOADING
   }
 }
+
+export const endLoading = (): AuthActionType => {
+  return {
+    type: ACTION_TYPE.ENDLOADING
+  }
+}
+
+
+export const update = (): AuthActionType => {
+  return {
+   type: ACTION_TYPE.UPDATE,
+  }
+}

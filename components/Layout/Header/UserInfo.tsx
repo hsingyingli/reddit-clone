@@ -12,6 +12,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 import useAuth from '../../../hooks/useAuth';
+import useAvatar from '../../../hooks/useAvatar';
 import {ProfileType} from '../../../@types/auth';
 import {getProfile} from '../../../lib/auth';
 
@@ -19,6 +20,7 @@ const UserInfo: React.FC = () => {
   const router = useRouter();
   const {authState, handleUserLogout} = useAuth();
   const [profile, setProfile] = useState<ProfileType | null>(null);
+  const avatarUrl = useAvatar(profile?.avatar_url || '');
 
   useEffect(() => {
     const read = async () => {
@@ -36,11 +38,11 @@ const UserInfo: React.FC = () => {
     <Box>
       <Menu>
         <MenuButton aria-label="Profile">
-          <Avatar
-            size="sm"
-            name={profile?.username}
-            src={profile?.avatar_url}
-          />
+          {authState.isAuth ? (
+            <Avatar size="sm" name={profile?.username} src={avatarUrl} />
+          ) : (
+            <Avatar size="sm" />
+          )}
         </MenuButton>
         <MenuList>
           <NextLink href="/profile">
@@ -48,18 +50,18 @@ const UserInfo: React.FC = () => {
           </NextLink>
           <MenuDivider />
           {authState.isAuth ? (
-            <Button mx={2} size="sm" onClick={handleUserLogout}>
+            <MenuItem mx={2} onClick={handleUserLogout}>
               Logout
-            </Button>
+            </MenuItem>
           ) : (
             <>
               {' '}
-              <Button mx={2} size="sm">
+              <MenuItem mx={2} >
                 <NextLink href="/login">Login</NextLink>
-              </Button>
-              <Button mx={2} size="sm">
+              </MenuItem>
+              <MenuItem mx={2} >
                 <NextLink href="/signup">SignUp</NextLink>
-              </Button>
+              </MenuItem>
             </>
           )}
         </MenuList>

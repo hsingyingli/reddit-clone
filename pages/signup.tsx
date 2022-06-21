@@ -10,7 +10,6 @@ import {
   AlertIcon,
   FormControl,
   FormLabel,
-  useToast,
   useColorModeValue,
 } from '@chakra-ui/react';
 import useAuth from '../hooks/useAuth';
@@ -24,16 +23,16 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
         destination: '/',
         permanent: true,
       },
-      props: {user},
+      props: {},
     };
   }
   return {
-    props: {user},
+    props: {},
   };
 };
 
-const SignUp: React.FC = (props) => {
-  const toast = useToast();
+const SignUp: React.FC = () => {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [pwd, setPwd] = useState('');
   const [isValidData, setIsValidData] = useState(true);
@@ -54,13 +53,7 @@ const SignUp: React.FC = (props) => {
     handleUserSignUp(email, pwd)
       .then((user) => {
         setIsValidData(true);
-        toast({
-          title: 'Account created.',
-          description: "We've created your account for you. Please check your email to confirm your signup",
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-        })
+        router.push('/');
       })
       .catch((error) => {
         console.log(error);
@@ -100,45 +93,67 @@ const SignUp: React.FC = (props) => {
           </Alert>
         )}
         <Box
-          borderColor={useColorModeValue('orange.600', 'orange.300')}
+          bg={useColorModeValue('white', 'gray.900')}
           borderWidth="thin"
           p={8}
-          borderRadius={10}
+          boxShadow={'2xl'}
+          rounded={'lg'}
         >
-          <Heading size="xl" color="orange.300" mb={2}>
-            Sign up to Reddit Clone
+          <Heading
+            size="xl"
+            color={useColorModeValue('gray.800', 'gray.200')}
+            mb={2}
+          >
+            SignUp to Reddit Clone
           </Heading>
           <form onSubmit={handleSignUp}>
             <FormControl isRequired my={2}>
-            <FormLabel>Email</FormLabel>
-            <Input
-              as="input"
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              borderColor={useColorModeValue('orange.600', 'orange.300')}
-            />
+              <FormLabel>Email</FormLabel>
+              <Input
+                as="input"
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                color={useColorModeValue('gray.800', 'gray.200')}
+                bg={useColorModeValue('gray.100', 'gray.600')}
+                rounded={'full'}
+                border={0}
+                _focus={{
+                  bg: useColorModeValue('gray.200', 'gray.800'),
+                  outline: 'none',
+                }}
+              />
             </FormControl>
             <FormControl isRequired my={2}>
-            <FormLabel>Password</FormLabel>
-            <Input
-              as="input"
-              type="password"
-              placeholder="Password"
-              value={pwd}
-              onChange={(e) => setPwd(e.target.value)}
-              borderColor={useColorModeValue('orange.600', 'orange.300')}
-            />
+              <FormLabel>Password</FormLabel>
+              <Input
+                as="input"
+                type="password"
+                placeholder="Password"
+                value={pwd}
+                onChange={(e) => setPwd(e.target.value)}
+                color={useColorModeValue('gray.800', 'gray.200')}
+                bg={useColorModeValue('gray.100', 'gray.600')}
+                rounded={'full'}
+                border={0}
+                _focus={{
+                  bg: useColorModeValue('gray.200', 'gray.800'),
+                  outline: 'none',
+                }}
+              />
             </FormControl>
             <Button
               isLoading={isLoading}
               as="button"
-              colorScheme="orange"
               onClick={handleSignUp}
-              type='submit'
+              type="submit"
+              rounded={'full'}
+              _hover={{
+                bg: 'gray.400',
+              }}
             >
-              SignUp
+              Sign up
             </Button>
           </form>
         </Box>

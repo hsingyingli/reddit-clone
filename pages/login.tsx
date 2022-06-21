@@ -93,43 +93,65 @@ const Login: React.FC = () => {
           </Alert>
         )}
         <Box
-          borderColor={useColorModeValue('orange.600', 'orange.300')}
+          bg={useColorModeValue('white', 'gray.900')}
           borderWidth="thin"
           p={8}
-          borderRadius={10}
+          boxShadow={'2xl'}
+          rounded={'lg'}
         >
-          <Heading size="xl" color="orange.300" mb={2}>
+          <Heading
+            size="xl"
+            color={useColorModeValue('gray.800', 'gray.200')}
+            mb={2}
+          >
             Login to Reddit Clone
           </Heading>
           <form onSubmit={handleLogin}>
             <FormControl isRequired my={2}>
-            <FormLabel>Email</FormLabel>
-            <Input
-              as="input"
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              borderColor={useColorModeValue('orange.600', 'orange.300')}
-            />
+              <FormLabel>Email</FormLabel>
+              <Input
+                as="input"
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                color={useColorModeValue('gray.800', 'gray.200')}
+                bg={useColorModeValue('gray.100', 'gray.600')}
+                rounded={'full'}
+                border={0}
+                _focus={{
+                  bg: useColorModeValue('gray.200', 'gray.800'),
+                  outline: 'none',
+                }}
+              />
             </FormControl>
             <FormControl isRequired my={2}>
-            <FormLabel>Password</FormLabel>
-            <Input
-              as="input"
-              type="password"
-              placeholder="Password"
-              value={pwd}
-              onChange={(e) => setPwd(e.target.value)}
-              borderColor={useColorModeValue('orange.600', 'orange.300')}
-            />
+              <FormLabel>Password</FormLabel>
+              <Input
+                as="input"
+                type="password"
+                placeholder="Password"
+                value={pwd}
+                onChange={(e) => setPwd(e.target.value)}
+                color={useColorModeValue('gray.800', 'gray.200')}
+                bg={useColorModeValue('gray.100', 'gray.600')}
+                rounded={'full'}
+                border={0}
+                _focus={{
+                  bg: useColorModeValue('gray.200', 'gray.800'),
+                  outline: 'none',
+                }}
+              />
             </FormControl>
             <Button
               isLoading={isLoading}
               as="button"
-              colorScheme="orange"
               onClick={handleLogin}
-              type='submit'
+              type="submit"
+              rounded={'full'}
+              _hover={{
+                bg: 'gray.400',
+              }}
             >
               Login
             </Button>

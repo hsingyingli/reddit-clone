@@ -9,7 +9,7 @@ export type ProfileType = {
 
 export type AuthActionType = {
   type: string;
-  user?: User
+  user?: User;
 }
 
 
@@ -17,6 +17,7 @@ export type AuthInfoType = {
   isAuth: boolean;
   user: User| null | undefined;
   isLoading: boolean;
+  isUpdate: boolean;
 }
 
 export type AuthContextType = {
@@ -26,6 +27,7 @@ export type AuthContextType = {
   handleUserLogin: (_email: string, _password: string)=> Promise<User | null>;
   handleUserLogout: () => Promise<boolean>; 
   handleSetUser: (_user: User) => void;
+  handleUpdateUser: () => void;
 }
 
 
