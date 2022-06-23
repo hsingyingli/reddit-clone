@@ -55,13 +55,12 @@ const UserInfo: React.FC = () => {
             </MenuItem>
           ) : (
             <>
-              {' '}
-              <MenuItem mx={2} >
-                <NextLink href="/login">Login</NextLink>
-              </MenuItem>
-              <MenuItem mx={2} >
-                <NextLink href="/signup">SignUp</NextLink>
-              </MenuItem>
+              <NextLink href="/login">
+                <MenuItem mx={2}>Login</MenuItem>
+              </NextLink>
+              <NextLink href="/signup">
+                <MenuItem mx={2}>signup</MenuItem>
+              </NextLink>
             </>
           )}
         </MenuList>

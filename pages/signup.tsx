@@ -1,6 +1,5 @@
 import {useRouter} from 'next/router';
-import React, {useState} from 'react';
-import {GetServerSideProps} from 'next';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   Box,
   Input,
@@ -11,33 +10,37 @@ import {
   FormControl,
   FormLabel,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 import useAuth from '../hooks/useAuth';
-import {supabase} from '../lib/supabase-client';
-
-export const getServerSideProps: GetServerSideProps = async ({req}) => {
-  const {user} = await supabase.auth.api.getUserByCookie(req);
-  if (user) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: true,
-      },
-      props: {},
-    };
-  }
-  return {
-    props: {},
-  };
-};
 
 const SignUp: React.FC = () => {
   const router = useRouter();
+  const toast = useToast();
+  const inputRef = useRef<HTMLInputElement>(null);
   const [email, setEmail] = useState('');
   const [pwd, setPwd] = useState('');
   const [isValidData, setIsValidData] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const {handleUserSignUp} = useAuth();
+  const {authState, handleUserSignUp} = useAuth();
+
+  useEffect(()=> {
+    const handleComplete = () => {
+      setIsLoading(false)
+    }
+    router.events.on('routeChangeComplete', handleComplete);
+    return ()=> {
+      router.events.off('routeChangeComplete', handleComplete)
+    }
+  }, [router])
+
+  useEffect(() => {
+    if (authState.isAuth) {
+      router.push('/');
+    }
+    inputRef.current?.focus()
+
+  }, [authState, router]);
 
   const handleSignUp: React.FormEventHandler<HTMLElement> = async (e) => {
     e.preventDefault();
@@ -51,18 +54,24 @@ const SignUp: React.FC = () => {
     }
 
     handleUserSignUp(email, pwd)
-      .then((user) => {
+      .then(() => {
         setIsValidData(true);
-        router.push('/');
+        toast({
+          title: 'Account created.',
+          description: "We've created your account for you. Please check your email to comfirm sign up!!",
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        })
+        router.push('/login');
       })
       .catch((error) => {
-        console.log(error);
         setIsValidData(false);
+        setIsLoading(false);
       })
       .finally(() => {
         setEmail('');
         setPwd('');
-        setIsLoading(false);
       });
   };
 
@@ -104,12 +113,13 @@ const SignUp: React.FC = () => {
             color={useColorModeValue('gray.800', 'gray.200')}
             mb={2}
           >
-            SignUp to Reddit Clone
+            Sign up to Reddit Clone
           </Heading>
           <form onSubmit={handleSignUp}>
             <FormControl isRequired my={2}>
               <FormLabel>Email</FormLabel>
               <Input
+                ref={inputRef}
                 as="input"
                 type="email"
                 placeholder="Email"
@@ -153,7 +163,7 @@ const SignUp: React.FC = () => {
                 bg: 'gray.400',
               }}
             >
-              Sign up
+              SignUp
             </Button>
           </form>
         </Box>

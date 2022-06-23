@@ -59,7 +59,7 @@ const Profile: React.FC<ProfileProps> = ({profile, error}) => {
   const [username, setUsername] = useState(profile?.username);
   const [website, setWebsite] = useState(profile?.website);
   const [avatar_url, setAvatarUrl] = useState(profile?.avatar_url);
-  const {handleUserLogout, authState, handleUpdateUser} = useAuth();
+  const {handleUserLogout, authState, handleUserUpdate} = useAuth();
   const toast = useToast();
   const handleUpdateProfile = async () => {
     if (
@@ -96,7 +96,7 @@ const Profile: React.FC<ProfileProps> = ({profile, error}) => {
         isClosable: true,
       });
 
-      handleUpdateUser();
+      handleUserUpdate();
 
     } catch (error: any) {
       toast({

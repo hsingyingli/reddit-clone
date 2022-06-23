@@ -7,16 +7,14 @@ export const initialState: AuthInfoType = {
   isLoading: false,
   isUpdate: false,
 };
+
 const AuthContext = createContext<AuthContextType>({
   isLoading: true,
   authState: initialState,
-  handleUserSignUp: (_email: string, _password: string) =>
-    new Promise(() => null),
-  handleUserLogin: (_email: string, _password: string) =>
-    new Promise(() => null),
-  handleUserLogout: () => new Promise(() => false),
-  handleSetUser: () => {},
-  handleUpdateUser: ()=> {},
+  handleUserSignUp: (_email: string, _password: string) => new Promise(()=>{}),
+  handleUserLogin: (_email: string, _password: string) => new Promise(()=>{}),
+  handleUserLogout: () => {},
+  handleUserUpdate: ()=> {},
 });
 
 export default AuthContext;

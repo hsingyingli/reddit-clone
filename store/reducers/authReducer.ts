@@ -1,5 +1,6 @@
 import * as ACTION_TYPE from '../actions/action_type';
-import {AuthActionType, AuthInfoType} from '../../@types/auth';
+import { User } from '@supabase/supabase-js';
+import {AuthActionType, AuthInfoType, ProfileType} from '../../@types/auth';
 import {initialState} from '../contexts/AuthContext';
 
 export const AuthReducer = (
@@ -12,7 +13,7 @@ export const AuthReducer = (
         ...state,
         isLoading: false,
         isAuth: true,
-        user: action.user,
+        user: action.user as User,
       };
     case ACTION_TYPE.LOGOUT:
       return {

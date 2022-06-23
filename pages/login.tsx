@@ -1,6 +1,5 @@
 import {useRouter} from 'next/router';
-import React, {useState} from 'react';
-import {GetServerSideProps} from 'next';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   Box,
   Input,
@@ -13,31 +12,33 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import useAuth from '../hooks/useAuth';
-import {supabase} from '../lib/supabase-client';
-
-export const getServerSideProps: GetServerSideProps = async ({req}) => {
-  const {user} = await supabase.auth.api.getUserByCookie(req);
-  if (user) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: true,
-      },
-      props: {},
-    };
-  }
-  return {
-    props: {},
-  };
-};
 
 const Login: React.FC = () => {
   const router = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
   const [email, setEmail] = useState('');
   const [pwd, setPwd] = useState('');
   const [isValidData, setIsValidData] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const {handleUserLogin} = useAuth();
+  const {authState, handleUserLogin} = useAuth();
+
+  useEffect(()=> {
+    const handleComplete = () => {
+      setIsLoading(false)
+    }
+    router.events.on('routeChangeComplete', handleComplete);
+    return ()=> {
+      router.events.off('routeChangeComplete', handleComplete)
+    }
+  }, [router])
+
+  useEffect(() => {
+    if (authState.isAuth) {
+      router.push('/');
+    }
+    inputRef.current?.focus()
+
+  }, [authState, router]);
 
   const handleLogin: React.FormEventHandler<HTMLElement> = async (e) => {
     e.preventDefault();
@@ -51,18 +52,18 @@ const Login: React.FC = () => {
     }
 
     handleUserLogin(email, pwd)
-      .then((user) => {
+      .then(() => {
         setIsValidData(true);
         router.push('/');
       })
       .catch((error) => {
         console.log(error);
         setIsValidData(false);
+        setIsLoading(false);
       })
       .finally(() => {
         setEmail('');
         setPwd('');
-        setIsLoading(false);
       });
   };
 
@@ -110,6 +111,7 @@ const Login: React.FC = () => {
             <FormControl isRequired my={2}>
               <FormLabel>Email</FormLabel>
               <Input
+                ref={inputRef}
                 as="input"
                 type="email"
                 placeholder="Email"

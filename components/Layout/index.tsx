@@ -35,7 +35,7 @@ const Layout: React.FC<LayputProps> = ({children}) => {
         <title>Reddit Clone</title>
       </Head>
       <Header />
-      <Container maxW="container.xl" pt={16}>
+      <Container maxW="container.lg" pt={16}>
         {children}
       </Container>
     </Box>
